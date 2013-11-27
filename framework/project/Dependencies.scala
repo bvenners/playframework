@@ -8,10 +8,13 @@ object Dependencies {
 
   // Some common dependencies here so they don't need to be declared over and over
   val specsVersion = "2.3.4"
+  val scalaTestVersion = "2.0"
   val specsBuild = Seq(
+    "org.scalatest" %% "scalatest" % scalaTestVersion,
     "org.specs2" %% "specs2-core" % specsVersion,
     "org.specs2" %% "specs2-junit" % specsVersion,
     "org.specs2" %% "specs2-mock" % specsVersion
+    
   )
   val specsSbt = specsBuild
   val scalaIoFile = "com.github.scala-incubator.io" %% "scala-io-file" % "0.4.2"
