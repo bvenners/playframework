@@ -7,7 +7,7 @@ import org.scalatest._
 import fixture.NoArg
 
 abstract class App(val app: FakeApplication = FakeApplication()) extends NoArg {
-  implicit val implicitApp = app
+  implicit val implicitApp: FakeApplication = app
   override def apply() {
     Helpers.running(app)(super.apply())
   }

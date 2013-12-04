@@ -1,0 +1,8 @@
+
+Fixture things. where are those. So that you can do an AppFixture and a ServerFixture.
+
+Need to think about Selenium too.
+
+This is all related.
+
+
