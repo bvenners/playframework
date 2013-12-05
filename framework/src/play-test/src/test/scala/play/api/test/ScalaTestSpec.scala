@@ -6,7 +6,7 @@ package play.api.test
 import org.scalatest._
 import play.api.{Play, Application}
 
-class ScalaTestSpec extends UnitSpec {
+class ScalaTestSpec extends MixedSpec {
 
   def fakeApp[A](elems: (String, String)*) = FakeApplication(additionalConfiguration = Map(elems:_*))
   def getConfig(key: String)(implicit app: Application) = app.configuration.getString(key)
@@ -35,7 +35,7 @@ class ScalaTestSpec extends UnitSpec {
     import Helpers._
     "send 404 on a bad request" in new Server {
       import java.net._
-      val url = new URL("http://localhost:9000/boum")
+      val url = new URL("http://localhost:" + port + "/boum")
       val con = url.openConnection().asInstanceOf[HttpURLConnection]
       try con.getResponseCode shouldBe 404
       finally con.disconnect()
