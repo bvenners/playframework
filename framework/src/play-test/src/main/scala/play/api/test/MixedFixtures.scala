@@ -19,7 +19,5 @@ trait MixedFixtures extends SuiteMixin with UnitFixture { this: fixture.Suite =>
       Helpers.running(TestServer(port, app))(super.apply())
     }
   }
-
-  // implicit def bustBoilerplate(u: Unit): Function0[Unit] = () => ()
 }
 

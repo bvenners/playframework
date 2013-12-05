@@ -38,5 +38,10 @@ class MixedSpecSpec extends MixedSpec {
       finally con.disconnect()
     }
   }
+  "Any old thing" should {
+    "be doable without much boilerplate" in { () =>
+       1 + 1 shouldEqual 2
+     }
+  }
 }
 
