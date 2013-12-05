@@ -1,12 +1,9 @@
-/*
- * Copyright (C) 2009-2013 Typesafe Inc. <http://www.typesafe.com>
- */
 package play.api.test
 
 import org.scalatest._
 import play.api.{Play, Application}
 
-class ServerFixtureSpec extends UnitSpec with ServerFixture {
+class ServerSpecSpec extends ServerSpec {
 
   implicit override def app: FakeApplication = FakeApplication(additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"))
   def getConfig(key: String)(implicit app: Application) = app.configuration.getString(key)
