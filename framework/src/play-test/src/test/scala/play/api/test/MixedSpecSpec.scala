@@ -1,12 +1,9 @@
-/*
- * Copyright (C) 2009-2013 Typesafe Inc. <http://www.typesafe.com>
- */
 package play.api.test
 
 import org.scalatest._
 import play.api.{Play, Application}
 
-class ScalaTestSpec extends MixedSpec {
+class MixedSpecSpec extends MixedSpec {
 
   def fakeApp[A](elems: (String, String)*) = FakeApplication(additionalConfiguration = Map(elems:_*))
   def getConfig(key: String)(implicit app: Application) = app.configuration.getString(key)
