@@ -6,7 +6,7 @@ package play.api.test
 import org.scalatest._
 import play.api.{Play, Application}
 
-class ServerFixtureSpec extends UnitSpec with ServerFixture {
+class OneServerPerTestSpec extends UnitSpec with OneServerPerTest {
 
   implicit override def app: FakeApplication = FakeApplication(additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"))
   def getConfig(key: String)(implicit app: Application) = app.configuration.getString(key)
