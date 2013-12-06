@@ -11,7 +11,7 @@ class OneServerPerTestSpec extends UnitSpec with OneServerPerTest {
   implicit override def app: FakeApplication = FakeApplication(additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"))
   def getConfig(key: String)(implicit app: Application) = app.configuration.getString(key)
 
-  "The ServerFixture" should {
+  "The OneServerPerTest trait" should {
     "provide a FakeApplication" in {
       app.configuration.getString("foo") shouldBe Some("bar")
     }

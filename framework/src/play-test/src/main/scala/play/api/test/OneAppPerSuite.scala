@@ -6,14 +6,14 @@ import play.api.Play
 
 trait OneAppPerSuite extends SuiteMixin { this: Suite => 
 
-  private var privateApp: FakeApplication = _
-  implicit def app: FakeApplication = synchronized { privateApp }
+  implicit def app: FakeApplication = new FakeApplication()
   
   abstract override def run(testName: Option[String], args: Args): Status = {
-    synchronized { privateApp = new FakeApplication() }
     try {
       Play.start(app)
-      super.run(testName, args)
+      val newConfigMap = args.configMap + ("app" -> app)
+      val newArgs = args.copy(configMap = newConfigMap)
+      super.run(testName, newArgs)
     } finally Play.stop()
   }
 }   

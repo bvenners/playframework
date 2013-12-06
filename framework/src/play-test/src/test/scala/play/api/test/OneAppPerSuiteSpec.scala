@@ -5,10 +5,17 @@ import play.api.{Play, Application}
 
 class OneAppPerSuiteSpec extends UnitSpec with OneAppPerSuite {
 
-  implicit override def app: FakeApplication = FakeApplication(additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"))
+  implicit override val app: FakeApplication = FakeApplication(additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"))
   def getConfig(key: String)(implicit app: Application) = app.configuration.getString(key)
 
-  "The AppFixture" should {
+  var configMap: ConfigMap = _
+
+  override def withFixture(test: NoArgTest): Outcome = {
+    configMap = test.configMap
+    super.withFixture(test)
+  }
+
+  "The OneAppPerSuite trait" should {
     "provide a FakeApplication" in {
       app.configuration.getString("foo") shouldBe Some("bar")
     }
@@ -17,6 +24,10 @@ class OneAppPerSuiteSpec extends UnitSpec with OneAppPerSuite {
     }
     "start the FakeApplication" in {
       Play.maybeApplication shouldBe Some(app)
+    }
+    "put the app in the configMap" in {
+      val configuredApp = configMap.getOptional[FakeApplication]("app")
+      configuredApp.value should be theSameInstanceAs app
     }
   }
 }
