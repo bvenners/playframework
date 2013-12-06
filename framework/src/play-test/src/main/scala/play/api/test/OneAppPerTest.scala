@@ -5,11 +5,12 @@ import org.scalatest._
 
 trait OneAppPerTest extends SuiteMixin { this: Suite => 
 
-  private var privateApp: FakeApplication = _
-  implicit def app: FakeApplication = synchronized { privateApp }
-  
+  def newApp: FakeApplication = new FakeApplication()
+  private var appPerTest: FakeApplication = _
+  implicit final def app: FakeApplication = synchronized { appPerTest }
+
   abstract override def withFixture(test: NoArgTest) = {
-    synchronized { privateApp = new FakeApplication() }
+    synchronized { appPerTest = newApp }
     Helpers.running(app) {
       super.withFixture(test)
     } 

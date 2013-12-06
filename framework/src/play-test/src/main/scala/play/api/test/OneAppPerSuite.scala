@@ -6,7 +6,7 @@ import play.api.Play
 
 trait OneAppPerSuite extends SuiteMixin { this: Suite => 
 
-  implicit def app: FakeApplication = new FakeApplication()
+  implicit val app: FakeApplication = new FakeApplication()
   
   abstract override def run(testName: Option[String], args: Args): Status = {
     try {

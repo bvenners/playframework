@@ -5,16 +5,16 @@ import org.scalatest._
 
 trait OneServerPerSuite extends SuiteMixin { this: Suite =>
 
-  private var privateApp: FakeApplication = _
-  implicit def app: FakeApplication = synchronized { privateApp }
+  implicit val app: FakeApplication = new FakeApplication()
   val port: Int = Helpers.testServerPort
 
   abstract override def run(testName: Option[String], args: Args): Status = {
-    synchronized { privateApp = new FakeApplication() }
     val testServer = TestServer(port, app)
     try {
       testServer.start()
-      super.run(testName, args)
+      val newConfigMap = args.configMap + ("app" -> app) + ("port" -> port)
+      val newArgs = args.copy(configMap = newConfigMap)
+      super.run(testName, newArgs)
     } finally testServer.stop()
   }
 }

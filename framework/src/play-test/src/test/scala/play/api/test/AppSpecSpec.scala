@@ -5,7 +5,7 @@ import play.api.{Play, Application}
 
 class AppSpecSpec extends AppSpec {
 
-  implicit override def app: FakeApplication = FakeApplication(additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"))
+  override def newApp: FakeApplication = FakeApplication(additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"))
   def getConfig(key: String)(implicit app: Application) = app.configuration.getString(key)
 
   "The AppFixture" should {
