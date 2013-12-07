@@ -21,6 +21,9 @@ class OneServerPerTestSpec extends UnitSpec with OneServerPerTest {
     "start the FakeApplication" in {
       Play.maybeApplication shouldBe Some(app)
     }
+    "provide the port" in {
+      port shouldBe Helpers.testServerPort
+    }
     import Helpers._
     "send 404 on a bad request" in {
       import java.net._
