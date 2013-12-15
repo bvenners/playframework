@@ -9,6 +9,7 @@ import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxProfile
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.openqa.selenium.safari.SafariDriver
+import org.openqa.selenium.chrome.ChromeDriver
 
 trait MixedFixtures extends SuiteMixin with UnitFixture { this: fixture.Suite =>
 
@@ -51,6 +52,15 @@ trait MixedFixtures extends SuiteMixin with UnitFixture { this: fixture.Suite =>
 
   abstract class Safari(val app: FakeApplication = FakeApplication(), val port: Int = Helpers.testServerPort) extends WebBrowser with NoArg {
     implicit lazy val webDriver: WebDriver = new SafariDriver()
+    implicit def implicitApp: FakeApplication = app
+    override def apply() {
+      try Helpers.running(TestServer(port, app))(super.apply())
+      finally webDriver.close()
+    }
+  }
+
+  abstract class Chrome(val app: FakeApplication = FakeApplication(), val port: Int = Helpers.testServerPort) extends WebBrowser with NoArg {
+    implicit lazy val webDriver: WebDriver = new ChromeDriver()
     implicit def implicitApp: FakeApplication = app
     override def apply() {
       try Helpers.running(TestServer(port, app))(super.apply())

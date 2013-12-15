@@ -113,6 +113,31 @@ class MixedFixtureSpec extends MixedSpec {
       eventually { pageTitle should (startWith ("scalatest") and endWith ("Search")) }
     }
   }
+  "The Chrome function" should {
+    "provide a FakeApplication" ignore new Chrome(fakeApp("foo" -> "bar", "ehcacheplugin" -> "disabled")) {
+      app.configuration.getString("foo") shouldBe Some("bar")
+    }
+    "make the FakeApplication available implicitly" ignore new Chrome(fakeApp("foo" -> "bar",  "ehcacheplugin" -> "disabled")) {
+      getConfig("foo") shouldBe Some("bar")
+    }
+    "start the FakeApplication" ignore new Chrome(fakeApp("foo" -> "bar",  "ehcacheplugin" -> "disabled")) {
+      Play.maybeApplication shouldBe Some(app)
+    }
+    import Helpers._
+    "send 404 on a bad request" ignore new Chrome {
+      import java.net._
+      val url = new URL("http://localhost:" + port + "/boum")
+      val con = url.openConnection().asInstanceOf[HttpURLConnection]
+      try con.getResponseCode shouldBe 404
+      finally con.disconnect()
+    }
+    "provide a web driver" ignore new Chrome {
+      go to "http://www.google.com/"
+      click on "q"
+      enter("scalatest")
+      eventually { pageTitle should (startWith ("scalatest") and endWith ("Search")) }
+    }
+  }
   "Any old thing" should {
     "be doable without much boilerplate" in { () =>
        1 + 1 shouldEqual 2
