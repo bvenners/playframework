@@ -4,7 +4,7 @@ import org.scalatest._
 import play.api.{Play, Application}
 import org.openqa.selenium.WebDriver
 
-class HttpUnitBrowserSpec extends UnitSpec with OneBrowserPerSuite with HttpUnitBrowser {
+class HttpUnitBrowserSpec extends UnitSpec with OneBrowserPerSuite with HttpUnitDriver {
 
   implicit override val app: FakeApplication = FakeApplication(additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"))
   def getConfig(key: String)(implicit app: Application) = app.configuration.getString(key)
