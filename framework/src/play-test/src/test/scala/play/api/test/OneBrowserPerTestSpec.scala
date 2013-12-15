@@ -3,7 +3,7 @@ package play.api.test
 import org.scalatest._
 import play.api.{Play, Application}
 
-class OneBrowserPerTestSpec extends UnitSpec with OneBrowserPerTest with Firefox {
+class OneBrowserPerTestSpec extends UnitSpec with OneBrowserPerTest with FirefoxBrowser {
 
   implicit override def app: FakeApplication = FakeApplication(additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"))
   def getConfig(key: String)(implicit app: Application) = app.configuration.getString(key)

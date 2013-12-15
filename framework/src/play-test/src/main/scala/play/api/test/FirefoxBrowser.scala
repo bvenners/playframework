@@ -10,7 +10,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxProfile
 
-trait Firefox extends Driver {
+trait FirefoxBrowser extends Driver {
   val firefoxProfile = new FirefoxProfile()
   abstract override def createNewDriver: WebDriver = new FirefoxDriver(firefoxProfile)
 }
