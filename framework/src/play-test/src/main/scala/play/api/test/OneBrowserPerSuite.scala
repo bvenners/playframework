@@ -7,7 +7,7 @@ import concurrent.Eventually
 import concurrent.IntegrationPatience
 import org.openqa.selenium.WebDriver
 
-trait OneBrowserPerSuite extends SuiteMixin with WebBrowser with Eventually with IntegrationPatience with Driver { this: Suite =>
+trait OneBrowserPerSuite extends SuiteMixin with WebBrowser with Eventually with IntegrationPatience with BrowserDriver { this: Suite =>
 
   implicit val app: FakeApplication = new FakeApplication()
   val port: Int = Helpers.testServerPort

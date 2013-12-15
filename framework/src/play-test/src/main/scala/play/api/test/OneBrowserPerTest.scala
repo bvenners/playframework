@@ -7,7 +7,7 @@ import concurrent.Eventually
 import concurrent.IntegrationPatience
 import org.openqa.selenium.WebDriver
 
-trait OneBrowserPerTest extends SuiteMixin with WebBrowser with Eventually with IntegrationPatience with Driver { this: Suite =>
+trait OneBrowserPerTest extends SuiteMixin with WebBrowser with Eventually with IntegrationPatience with BrowserDriver { this: Suite =>
 
   private var privateApp: FakeApplication = _
   implicit def app: FakeApplication = synchronized { privateApp }

@@ -9,7 +9,7 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxProfile
 
-trait FirefoxBrowser extends Driver {
+trait FirefoxBrowser extends BrowserDriver {
   val firefoxProfile = new FirefoxProfile()
   def createNewDriver: WebDriver = new FirefoxDriver(firefoxProfile)
 }
