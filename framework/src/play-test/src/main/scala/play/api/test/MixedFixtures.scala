@@ -10,6 +10,7 @@ import org.openqa.selenium.firefox.FirefoxProfile
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.openqa.selenium.safari.SafariDriver
 import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.ie.InternetExplorerDriver
 
 trait MixedFixtures extends SuiteMixin with UnitFixture { this: fixture.Suite =>
 
@@ -28,7 +29,7 @@ trait MixedFixtures extends SuiteMixin with UnitFixture { this: fixture.Suite =>
   }
 
   abstract class HttpUnit(val app: FakeApplication = FakeApplication(), val port: Int = Helpers.testServerPort) extends WebBrowser with NoArg {
-    implicit lazy val webDriver: WebDriver = {
+    implicit lazy val webDriver: HtmlUnitDriver = {
       val htmlUnitDriver = new HtmlUnitDriver()
       htmlUnitDriver.setJavascriptEnabled(true)
       htmlUnitDriver
@@ -42,7 +43,7 @@ trait MixedFixtures extends SuiteMixin with UnitFixture { this: fixture.Suite =>
 
   abstract class Firefox(val app: FakeApplication = FakeApplication(), val port: Int = Helpers.testServerPort) extends WebBrowser with NoArg {
     val firefoxProfile = new FirefoxProfile()
-    implicit lazy val webDriver: WebDriver = new FirefoxDriver(firefoxProfile)
+    implicit lazy val webDriver: FirefoxDriver = new FirefoxDriver(firefoxProfile)
     implicit def implicitApp: FakeApplication = app
     override def apply() {
       try Helpers.running(TestServer(port, app))(super.apply())
@@ -51,7 +52,7 @@ trait MixedFixtures extends SuiteMixin with UnitFixture { this: fixture.Suite =>
   }
 
   abstract class Safari(val app: FakeApplication = FakeApplication(), val port: Int = Helpers.testServerPort) extends WebBrowser with NoArg {
-    implicit lazy val webDriver: WebDriver = new SafariDriver()
+    implicit lazy val webDriver: SafariDriver = new SafariDriver()
     implicit def implicitApp: FakeApplication = app
     override def apply() {
       try Helpers.running(TestServer(port, app))(super.apply())
@@ -60,7 +61,16 @@ trait MixedFixtures extends SuiteMixin with UnitFixture { this: fixture.Suite =>
   }
 
   abstract class Chrome(val app: FakeApplication = FakeApplication(), val port: Int = Helpers.testServerPort) extends WebBrowser with NoArg {
-    implicit lazy val webDriver: WebDriver = new ChromeDriver()
+    implicit lazy val webDriver: ChromeDriver = new ChromeDriver()
+    implicit def implicitApp: FakeApplication = app
+    override def apply() {
+      try Helpers.running(TestServer(port, app))(super.apply())
+      finally webDriver.close()
+    }
+  }
+
+  abstract class InternetExplorer(val app: FakeApplication = FakeApplication(), val port: Int = Helpers.testServerPort) extends WebBrowser with NoArg {
+    implicit lazy val webDriver: InternetExplorerDriver = new InternetExplorerDriver()
     implicit def implicitApp: FakeApplication = app
     override def apply() {
       try Helpers.running(TestServer(port, app))(super.apply())
