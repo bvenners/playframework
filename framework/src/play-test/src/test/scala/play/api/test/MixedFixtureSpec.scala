@@ -3,7 +3,7 @@ package play.api.test
 import org.scalatest._
 import play.api.{Play, Application}
 
-class MixedSpecSpec extends MixedSpec {
+class MixedFixtureSpec extends MixedSpec {
 
   def fakeApp[A](elems: (String, String)*) = FakeApplication(additionalConfiguration = Map(elems:_*))
   def getConfig(key: String)(implicit app: Application) = app.configuration.getString(key)
@@ -57,6 +57,31 @@ class MixedSpecSpec extends MixedSpec {
       finally con.disconnect()
     }
     "provide a web driver" in new Firefox {
+      go to "http://www.google.com/"
+      click on "q"
+      enter("scalatest")
+      eventually { pageTitle should (startWith ("scalatest") and endWith ("Search")) }
+    }
+  }
+  "The HttpUnit function" should {
+    "provide a FakeApplication" in new HttpUnit(fakeApp("foo" -> "bar", "ehcacheplugin" -> "disabled")) {
+      app.configuration.getString("foo") shouldBe Some("bar")
+    }
+    "make the FakeApplication available implicitly" in new HttpUnit(fakeApp("foo" -> "bar",  "ehcacheplugin" -> "disabled")) {
+      getConfig("foo") shouldBe Some("bar")
+    }
+    "start the FakeApplication" in new HttpUnit(fakeApp("foo" -> "bar",  "ehcacheplugin" -> "disabled")) {
+      Play.maybeApplication shouldBe Some(app)
+    }
+    import Helpers._
+    "send 404 on a bad request" in new HttpUnit {
+      import java.net._
+      val url = new URL("http://localhost:" + port + "/boum")
+      val con = url.openConnection().asInstanceOf[HttpURLConnection]
+      try con.getResponseCode shouldBe 404
+      finally con.disconnect()
+    }
+    "provide a web driver" in new HttpUnit {
       go to "http://www.google.com/"
       click on "q"
       enter("scalatest")
