@@ -2,8 +2,9 @@ package play.api.test
 
 import org.scalatest._
 import play.api.{Play, Application}
+import org.openqa.selenium.WebDriver
 
-class OneServerPerSuiteSpec extends UnitSpec with OneServerPerSuite {
+class OneBrowserPerSuiteSpec extends UnitSpec with OneBrowserPerSuite with Firefox {
 
   implicit override val app: FakeApplication = FakeApplication(additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"))
   def getConfig(key: String)(implicit app: Application) = app.configuration.getString(key)
@@ -17,7 +18,7 @@ class OneServerPerSuiteSpec extends UnitSpec with OneServerPerSuite {
     super.withFixture(test)
   }
 
-  "The OneServerPerSuite trait" should {
+  "The OneBrowserPerSuite trait" should {
     "provide a FakeApplication" in {
       app.configuration.getString("foo") shouldBe Some("bar")
     }
@@ -45,6 +46,16 @@ class OneServerPerSuiteSpec extends UnitSpec with OneServerPerSuite {
     "put the port in the configMap" in {
       val configuredPort = configMap.getOptional[Int]("port")
       configuredPort.value shouldEqual port
+    }
+    "put the webDriver in the configMap" in {
+      val configuredApp = configMap.getOptional[WebDriver]("webDriver")
+      configuredApp shouldBe defined
+    }
+    "provide a web driver" in {
+      go to "http://www.google.com/"
+      click on "q"
+      enter("scalatest")
+      eventually { pageTitle should (startWith ("scalatest") and endWith ("Search")) }
     }
   }
 }
