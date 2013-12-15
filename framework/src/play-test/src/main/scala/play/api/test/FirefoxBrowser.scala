@@ -11,6 +11,6 @@ import org.openqa.selenium.firefox.FirefoxProfile
 
 trait FirefoxBrowser extends Driver {
   val firefoxProfile = new FirefoxProfile()
-  abstract override def createNewDriver: WebDriver = new FirefoxDriver(firefoxProfile)
+  def createNewDriver: WebDriver = new FirefoxDriver(firefoxProfile)
 }
 

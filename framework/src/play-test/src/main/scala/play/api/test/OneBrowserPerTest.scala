@@ -6,7 +6,6 @@ import selenium.WebBrowser
 import concurrent.Eventually
 import concurrent.IntegrationPatience
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.htmlunit.HtmlUnitDriver
 
 trait OneBrowserPerTest extends SuiteMixin with WebBrowser with Eventually with IntegrationPatience with Driver { this: Suite =>
 
@@ -15,11 +14,6 @@ trait OneBrowserPerTest extends SuiteMixin with WebBrowser with Eventually with 
   val port: Int = Helpers.testServerPort
   private var privateWebDriver: WebDriver = _
   implicit def webDriver: WebDriver = synchronized { privateWebDriver }
-  def createNewDriver: WebDriver = {
-    val htmlUnitDriver = new HtmlUnitDriver()
-    htmlUnitDriver.setJavascriptEnabled(true)
-    htmlUnitDriver
-  }
 
   abstract override def withFixture(test: NoArgTest) = {
     synchronized {
