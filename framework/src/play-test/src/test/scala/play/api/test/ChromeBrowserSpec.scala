@@ -4,7 +4,7 @@ import org.scalatest._
 import play.api.{Play, Application}
 import org.openqa.selenium.WebDriver
 
-/*
+
 // Can't get this one to work either on my Mac, even with the system property set
 class ChromeBrowserSpec extends UnitSpec with OneBrowserPerSuite with ChromeBrowser {
 
@@ -61,6 +61,4 @@ class ChromeBrowserSpec extends UnitSpec with OneBrowserPerSuite with ChromeBrow
     }
   }
 }
-
-*/
 
