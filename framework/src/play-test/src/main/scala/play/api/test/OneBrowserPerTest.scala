@@ -18,15 +18,28 @@ trait OneBrowserPerTest extends SuiteMixin with WebBrowser with Eventually with 
   abstract override def withFixture(test: NoArgTest) = {
     synchronized {
       privateApp = new FakeApplication()
-      privateWebDriver = createNewDriver
+      privateWebDriver = 
+        try {
+          createNewDriver
+        }
+        catch {
+          case _: Throwable => NoDriver
+        }
     }
     try {
-      Helpers.running(TestServer(port, app)) {
-        super.withFixture(test)
+      privateWebDriver match {
+        case NoDriver => cancel
+        case _ =>
+          Helpers.running(TestServer(port, app)) {
+            super.withFixture(test)
+          }
       }
     }
     finally {
-      privateWebDriver.close()
+      privateWebDriver match {
+        case NoDriver => // do nothing
+        case _ => privateWebDriver.close()
+      }
     }
   }
 }
