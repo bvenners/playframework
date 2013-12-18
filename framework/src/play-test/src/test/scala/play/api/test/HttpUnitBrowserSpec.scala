@@ -4,7 +4,6 @@ import org.scalatest._
 import play.api.{Play, Application}
 import org.openqa.selenium.WebDriver
 
-@Ignore // Doesn't work on my Mac
 class HttpUnitBrowserSpec extends UnitSpec with OneBrowserPerSuite with HttpUnitBrowser {
 
   implicit override val app: FakeApplication = FakeApplication(additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"))
@@ -52,7 +51,7 @@ class HttpUnitBrowserSpec extends UnitSpec with OneBrowserPerSuite with HttpUnit
       val configuredApp = configMap.getOptional[WebDriver]("webDriver")
       configuredApp shouldBe defined
     }
-    "provide a web driver" in {
+    "provide a web driver" ignore {
       go to "http://www.google.com/"
       click on "q"
       enter("scalatest")

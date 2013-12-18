@@ -117,7 +117,7 @@ class MixedFixtureSpec extends MixedSpec {
     "provide a FakeApplication" in new Chrome(fakeApp("foo" -> "bar", "ehcacheplugin" -> "disabled")) {
       app.configuration.getString("foo") shouldBe Some("bar")
     }
-    "make the FakeApplication available implicitly" ignore new Chrome(fakeApp("foo" -> "bar",  "ehcacheplugin" -> "disabled")) {
+    "make the FakeApplication available implicitly" in new Chrome(fakeApp("foo" -> "bar",  "ehcacheplugin" -> "disabled")) {
       getConfig("foo") shouldBe Some("bar")
     }
     "start the FakeApplication" in new Chrome(fakeApp("foo" -> "bar",  "ehcacheplugin" -> "disabled")) {
