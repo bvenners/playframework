@@ -4,8 +4,6 @@ import org.scalatest._
 import play.api.{Play, Application}
 import org.openqa.selenium.WebDriver
 
-/*
-Doesn't run on my Mac. Need to test this on Windows.
 class InternetExplorerBrowserSpec extends UnitSpec with OneBrowserPerSuite with InternetExplorerBrowser {
 
   implicit override val app: FakeApplication = FakeApplication(additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"))
@@ -61,5 +59,4 @@ class InternetExplorerBrowserSpec extends UnitSpec with OneBrowserPerSuite with 
     }
   }
 }
-*/
 

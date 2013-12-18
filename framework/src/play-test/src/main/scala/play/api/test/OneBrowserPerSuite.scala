@@ -11,7 +11,14 @@ trait OneBrowserPerSuite extends SuiteMixin with WebBrowser with Eventually with
 
   implicit val app: FakeApplication = new FakeApplication()
   val port: Int = Helpers.testServerPort
-  implicit val webDriver: WebDriver = createNewDriver
+  implicit val webDriver: WebDriver = try { createNewDriver } catch { case t: Throwable => NoDriver }
+
+  abstract override def withFixture(test: NoArgTest): Outcome = {
+    webDriver match {
+      case NoDriver => cancel
+      case _ => super.withFixture(test)
+    }
+  }
 
   abstract override def run(testName: Option[String], args: Args): Status = {
     val testServer = TestServer(port, app)
@@ -22,7 +29,10 @@ trait OneBrowserPerSuite extends SuiteMixin with WebBrowser with Eventually with
       super.run(testName, newArgs)
     } finally {
       testServer.stop()
-      webDriver.close()
+      webDriver match {
+        case NoDriver => // do nothing for NoDriver
+        case _ => webDriver.close()
+      }
     }
   }
 }
