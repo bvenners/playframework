@@ -11,7 +11,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver
 /**
  * Implementation of <code>BrowserDriver</code> that provides <code>HtmlUnitDriver</code>.
  */
-trait HttpUnitBrowser extends BrowserDriver {
+trait HtmlUnitBrowser extends BrowserDriver {
 
   /**
    * Create an new instance of <code>HtmlUnitDriver</code>.

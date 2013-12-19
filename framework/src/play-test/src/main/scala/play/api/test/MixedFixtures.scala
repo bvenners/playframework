@@ -28,7 +28,7 @@ trait MixedFixtures extends SuiteMixin with UnitFixture { this: fixture.Suite =>
     }
   }
 
-  abstract class HttpUnit(val app: FakeApplication = FakeApplication(), val port: Int = Helpers.testServerPort) extends WebBrowser with NoArg {
+  abstract class HtmlUnit(val app: FakeApplication = FakeApplication(), val port: Int = Helpers.testServerPort) extends WebBrowser with NoArg {
     implicit lazy val webDriver: WebDriver = 
       try {
         val htmlUnitDriver = new HtmlUnitDriver()

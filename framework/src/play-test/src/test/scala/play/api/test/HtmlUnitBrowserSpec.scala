@@ -4,7 +4,7 @@ import org.scalatest._
 import play.api.{Play, Application}
 import org.openqa.selenium.WebDriver
 
-class HttpUnitBrowserSpec extends UnitSpec with OneBrowserPerSuite with HttpUnitBrowser {
+class HtmlUnitBrowserSpec extends UnitSpec with OneBrowserPerSuite with HtmlUnitBrowser {
 
   implicit override val app: FakeApplication = FakeApplication(additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"))
   def getConfig(key: String)(implicit app: Application) = app.configuration.getString(key)
@@ -18,7 +18,7 @@ class HttpUnitBrowserSpec extends UnitSpec with OneBrowserPerSuite with HttpUnit
     super.withFixture(test)
   }
 
-  "The HttpUnitBrowser trait" should {
+  "The HtmlUnitBrowser trait" should {
     "provide a FakeApplication" in {
       app.configuration.getString("foo") shouldBe Some("bar")
     }

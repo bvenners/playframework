@@ -3,7 +3,7 @@ package play.api.test
 import org.scalatest._
 import play.api.{Play, Application}
 
-class OneHttpUnitBrowserPerTestSpec extends UnitSpec with OneBrowserPerTest with HttpUnitBrowser {
+class OneHtmlUnitBrowserPerTestSpec extends UnitSpec with OneBrowserPerTest with HtmlUnitBrowser {
 
   implicit override def app: FakeApplication = FakeApplication(additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"))
   def getConfig(key: String)(implicit app: Application) = app.configuration.getString(key)
