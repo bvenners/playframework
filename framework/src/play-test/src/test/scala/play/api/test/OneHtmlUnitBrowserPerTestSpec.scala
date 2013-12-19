@@ -5,7 +5,12 @@ import play.api.{Play, Application}
 
 class OneHtmlUnitBrowserPerTestSpec extends UnitSpec with OneBrowserPerTest with HtmlUnitBrowser {
 
-  implicit override def app: FakeApplication = FakeApplication(additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"))
+  implicit override def app: FakeApplication = 
+    FakeApplication(
+      additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"), 
+      withRoutes = TestRoute
+    )
+
   def getConfig(key: String)(implicit app: Application) = app.configuration.getString(key)
 
   "The OneBrowserPerTest trait" should {
@@ -29,11 +34,11 @@ class OneHtmlUnitBrowserPerTestSpec extends UnitSpec with OneBrowserPerTest with
       try con.getResponseCode shouldBe 404
       finally con.disconnect()
     }
-    "provide a web driver" ignore {
-      go to "http://www.google.com/"
-      click on "q"
-      enter("scalatest")
-      eventually { pageTitle should (startWith ("scalatest") and endWith ("Search")) }
+    "provide a web driver" in {
+      go to ("http://localhost:" + port + "/testing")
+      pageTitle shouldBe "Test Page"
+      click on find(name("b")).value
+      eventually { pageTitle shouldBe "scalatest" }
     }
   }
 }

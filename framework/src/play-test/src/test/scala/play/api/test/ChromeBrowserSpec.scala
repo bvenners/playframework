@@ -8,7 +8,11 @@ import org.openqa.selenium.WebDriver
 // Can't get this one to work either on my Mac, even with the system property set
 class ChromeBrowserSpec extends UnitSpec with OneBrowserPerSuite with ChromeBrowser {
 
-  implicit override val app: FakeApplication = FakeApplication(additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"))
+  implicit override val app: FakeApplication = 
+    FakeApplication(
+      additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"), 
+      withRoutes = TestRoute
+    )
   def getConfig(key: String)(implicit app: Application) = app.configuration.getString(key)
 
   // Doesn't need synchronization because set by withFixture and checked by the test
@@ -54,10 +58,10 @@ class ChromeBrowserSpec extends UnitSpec with OneBrowserPerSuite with ChromeBrow
       configuredApp shouldBe defined
     }
     "provide a web driver" in {
-      go to "http://www.google.com/"
-      click on "q"
-      enter("scalatest")
-      eventually { pageTitle should (startWith ("scalatest") and endWith ("Search")) }
+      go to ("http://localhost:" + port + "/testing")
+      pageTitle shouldBe "Test Page"
+      click on find(name("b")).value
+      eventually { pageTitle shouldBe "scalatest" }
     }
   }
 }

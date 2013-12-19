@@ -5,7 +5,7 @@ import play.api.{Play, Application}
 
 class MixedFixtureSpec extends MixedSpec {
 
-  def fakeApp[A](elems: (String, String)*) = FakeApplication(additionalConfiguration = Map(elems:_*))
+  def fakeApp[A](elems: (String, String)*) = FakeApplication(additionalConfiguration = Map(elems:_*), withRoutes = TestRoute)
   def getConfig(key: String)(implicit app: Application) = app.configuration.getString(key)
 
   "The App function" should {
@@ -56,11 +56,11 @@ class MixedFixtureSpec extends MixedSpec {
       try con.getResponseCode shouldBe 404
       finally con.disconnect()
     }
-    "provide a web driver" ignore new HtmlUnit {
-      go to "http://www.google.com/"
-      click on "q"
-      enter("scalatest")
-      eventually { pageTitle should (startWith ("scalatest") and endWith ("Search")) }
+    "provide a web driver" in new HtmlUnit(fakeApp()) {
+      go to ("http://localhost:" + port + "/testing")
+      pageTitle shouldBe "Test Page"
+      click on find(name("b")).value
+      eventually { pageTitle shouldBe "scalatest" }
     }
   }
   "The Firefox function" should {
@@ -81,11 +81,11 @@ class MixedFixtureSpec extends MixedSpec {
       try con.getResponseCode shouldBe 404
       finally con.disconnect()
     }
-    "provide a web driver" in new Firefox {
-      go to "http://www.google.com/"
-      click on "q"
-      enter("scalatest")
-      eventually { pageTitle should (startWith ("scalatest") and endWith ("Search")) }
+    "provide a web driver" in new Firefox(fakeApp()) {
+      go to ("http://localhost:" + port + "/testing")
+      pageTitle shouldBe "Test Page"
+      click on find(name("b")).value
+      eventually { pageTitle shouldBe "scalatest" }
     }
   }
   "The Safari function" should {
@@ -106,11 +106,11 @@ class MixedFixtureSpec extends MixedSpec {
       try con.getResponseCode shouldBe 404
       finally con.disconnect()
     }
-    "provide a web driver" in new Safari {
-      go to "http://www.google.com/"
-      click on "q"
-      enter("scalatest")
-      eventually { pageTitle should (startWith ("scalatest") and endWith ("Search")) }
+    "provide a web driver" in new Safari(fakeApp()) {
+      go to ("http://localhost:" + port + "/testing")
+      pageTitle shouldBe "Test Page"
+      click on find(name("b")).value
+      eventually { pageTitle shouldBe "scalatest" }
     }
   }
   "The Chrome function" should {
@@ -131,11 +131,11 @@ class MixedFixtureSpec extends MixedSpec {
       try con.getResponseCode shouldBe 404
       finally con.disconnect()
     }
-    "provide a web driver" in new Chrome {
-      go to "http://www.google.com/"
-      click on "q"
-      enter("scalatest")
-      eventually { pageTitle should (startWith ("scalatest") and endWith ("Search")) }
+    "provide a web driver" in new Chrome(fakeApp()) {
+      go to ("http://localhost:" + port + "/testing")
+      pageTitle shouldBe "Test Page"
+      click on find(name("b")).value
+      eventually { pageTitle shouldBe "scalatest" }
     }
   }
   "The InternetExplorer function" should {
@@ -156,11 +156,11 @@ class MixedFixtureSpec extends MixedSpec {
       try con.getResponseCode shouldBe 404
       finally con.disconnect()
     }
-    "provide a web driver" in new InternetExplorer {
-      go to "http://www.google.com/"
-      click on "q"
-      enter("scalatest")
-      eventually { pageTitle should (startWith ("scalatest") and endWith ("Search")) }
+    "provide a web driver" in new InternetExplorer(fakeApp()) {
+      go to ("http://localhost:" + port + "/testing")
+      pageTitle shouldBe "Test Page"
+      click on find(name("b")).value
+      eventually { pageTitle shouldBe "scalatest" }
     }
   }
   "Any old thing" should {
