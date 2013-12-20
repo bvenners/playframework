@@ -105,7 +105,13 @@ trait MixedFixtures extends SuiteMixin with UnitFixture { this: fixture.Suite =>
      * A lazy implicit instance of <code>FirefoxDriver</code>, it will hold <code>NoDriver</code> if <code>FirefoxDriver</code> 
      * is not available in the running machine.
      */
-    implicit lazy val webDriver: FirefoxDriver = new FirefoxDriver(firefoxProfile)
+    implicit lazy val webDriver: WebDriver = 
+      try {
+        new FirefoxDriver(firefoxProfile)
+      }
+      catch {
+        case _: Throwable => NoDriver
+      }
 
     /**
      * Make the passed in <code>FakeApplication</code> implicit.
