@@ -142,7 +142,7 @@ class MixedFixtureSpec extends MixedSpec {
     "provide a FakeApplication" in new InternetExplorer(fakeApp("foo" -> "bar", "ehcacheplugin" -> "disabled")) {
       app.configuration.getString("foo") shouldBe Some("bar")
     }
-    "make the FakeApplication available implicitly" ignore new InternetExplorer(fakeApp("foo" -> "bar",  "ehcacheplugin" -> "disabled")) {
+    "make the FakeApplication available implicitly" in new InternetExplorer(fakeApp("foo" -> "bar",  "ehcacheplugin" -> "disabled")) {
       getConfig("foo") shouldBe Some("bar")
     }
     "start the FakeApplication" in new InternetExplorer(fakeApp("foo" -> "bar",  "ehcacheplugin" -> "disabled")) {
