@@ -123,8 +123,12 @@ trait MixedFixtures extends SuiteMixin with UnitFixture { this: fixture.Suite =>
      * and close the <code>FirefoxDriver</code> automatically after test execution.
      */
     override def apply() {
-      try Helpers.running(TestServer(port, app))(super.apply())
-      finally webDriver.close()
+      webDriver match {
+        case NoDriver => cancel
+        case _ => 
+          try Helpers.running(TestServer(port, app))(super.apply())
+          finally webDriver.close()
+      }
     }
   }
 
