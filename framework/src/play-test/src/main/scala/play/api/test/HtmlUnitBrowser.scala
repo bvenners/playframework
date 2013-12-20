@@ -8,7 +8,14 @@ import concurrent.IntegrationPatience
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
 
-trait HttpUnitBrowser extends BrowserDriver {
+/**
+ * Implementation of <code>BrowserDriver</code> that provides <code>HtmlUnitDriver</code>.
+ */
+trait HtmlUnitBrowser extends BrowserDriver {
+
+  /**
+   * Create an new instance of <code>HtmlUnitDriver</code>.
+   */
   def createNewDriver: WebDriver = {
     val htmlUnitDriver = new HtmlUnitDriver()
     htmlUnitDriver.setJavascriptEnabled(true)

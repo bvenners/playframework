@@ -2,10 +2,15 @@ package play.api.test
 
 import org.scalatest._
 import play.api.{Play, Application}
+import play.api.mvc.{Action, Results}
 
 class OneBrowserPerTestSpec extends UnitSpec with OneBrowserPerTest with FirefoxBrowser {
 
-  implicit override def app: FakeApplication = FakeApplication(additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"))
+  implicit override def app: FakeApplication = 
+    FakeApplication(
+      additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"), 
+      withRoutes = TestRoute
+    )
   def getConfig(key: String)(implicit app: Application) = app.configuration.getString(key)
 
   "The OneBrowserPerTest trait" should {
@@ -30,10 +35,10 @@ class OneBrowserPerTestSpec extends UnitSpec with OneBrowserPerTest with Firefox
       finally con.disconnect()
     }
     "provide a web driver" in {
-      go to "http://www.google.com/"
-      click on "q"
-      enter("scalatest")
-      eventually { pageTitle should (startWith ("scalatest") and endWith ("Search")) }
+      go to ("http://localhost:" + port + "/testing")
+      pageTitle shouldBe "Test Page"
+      click on find(name("b")).value
+      eventually { pageTitle shouldBe "scalatest" }
     }
   }
 }

@@ -4,10 +4,13 @@ import org.scalatest._
 import play.api.{Play, Application}
 import org.openqa.selenium.WebDriver
 
-@Ignore // Doesn't work on my Mac
-class HttpUnitBrowserSpec extends UnitSpec with OneBrowserPerSuite with HttpUnitBrowser {
+class HtmlUnitBrowserSpec extends UnitSpec with OneBrowserPerSuite with HtmlUnitBrowser {
 
-  implicit override val app: FakeApplication = FakeApplication(additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"))
+  implicit override val app: FakeApplication = 
+    FakeApplication(
+      additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"), 
+      withRoutes = TestRoute
+    )
   def getConfig(key: String)(implicit app: Application) = app.configuration.getString(key)
 
   // Doesn't need synchronization because set by withFixture and checked by the test
@@ -19,7 +22,7 @@ class HttpUnitBrowserSpec extends UnitSpec with OneBrowserPerSuite with HttpUnit
     super.withFixture(test)
   }
 
-  "The HttpUnitBrowser trait" should {
+  "The HtmlUnitBrowser trait" should {
     "provide a FakeApplication" in {
       app.configuration.getString("foo") shouldBe Some("bar")
     }
@@ -53,10 +56,10 @@ class HttpUnitBrowserSpec extends UnitSpec with OneBrowserPerSuite with HttpUnit
       configuredApp shouldBe defined
     }
     "provide a web driver" in {
-      go to "http://www.google.com/"
-      click on "q"
-      enter("scalatest")
-      eventually { pageTitle should (startWith ("scalatest") and endWith ("Search")) }
+      go to ("http://localhost:" + port + "/testing")
+      pageTitle shouldBe "Test Page"
+      click on find(name("b")).value
+      eventually { pageTitle shouldBe "scalatest" }
     }
   }
 }

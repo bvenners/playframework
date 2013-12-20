@@ -4,11 +4,13 @@ import org.scalatest._
 import play.api.{Play, Application}
 import org.openqa.selenium.WebDriver
 
-/*
-Doesn't run on my Mac. Need to test this on Windows.
 class InternetExplorerBrowserSpec extends UnitSpec with OneBrowserPerSuite with InternetExplorerBrowser {
 
-  implicit override val app: FakeApplication = FakeApplication(additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"))
+  implicit override val app: FakeApplication = 
+    FakeApplication(
+      additionalConfiguration = Map("foo" -> "bar", "ehcacheplugin" -> "disabled"), 
+      withRoutes = TestRoute
+    )
   def getConfig(key: String)(implicit app: Application) = app.configuration.getString(key)
 
   // Doesn't need synchronization because set by withFixture and checked by the test
@@ -54,12 +56,11 @@ class InternetExplorerBrowserSpec extends UnitSpec with OneBrowserPerSuite with 
       configuredApp shouldBe defined
     }
     "provide a web driver" in {
-      go to "http://www.google.com/"
-      click on "q"
-      enter("scalatest")
-      eventually { pageTitle should (startWith ("scalatest") and endWith ("Search")) }
+      go to ("http://localhost:" + port + "/testing")
+      pageTitle shouldBe "Test Page"
+      click on find(name("b")).value
+      eventually { pageTitle shouldBe "scalatest" }
     }
   }
 }
-*/
 

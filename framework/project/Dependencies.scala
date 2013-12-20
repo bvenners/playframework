@@ -176,6 +176,7 @@ object Dependencies {
 
   val testDependencies = Seq("junit" % "junit" % "4.11") ++ specsBuild ++ Seq(
     "com.novocode" % "junit-interface" % "0.10" exclude("junit", "junit-dep"),
+    "org.seleniumhq.selenium" % "selenium-java" % "2.38.0" % "test", 
     guava,
     findBugs,
     ("org.fluentlenium" % "fluentlenium-festassert" % "0.9.0")

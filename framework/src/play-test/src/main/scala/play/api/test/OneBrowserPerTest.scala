@@ -7,26 +7,69 @@ import concurrent.Eventually
 import concurrent.IntegrationPatience
 import org.openqa.selenium.WebDriver
 
+/**
+ * Trait that provides new browser instance for each test executed in a ScalaTest <code>Suite</code>.
+ * 
+ * It overrides ScalaTest's <code>withFixture</code> method to create new <code>WebDriver</code> instance 
+ * before executing each test.
+ */
 trait OneBrowserPerTest extends SuiteMixin with WebBrowser with Eventually with IntegrationPatience with BrowserDriver { this: Suite =>
 
   private var privateApp: FakeApplication = _
+
+  /**
+   * Method to create new instance of <code>FakeApplication</code>
+   */
   implicit def app: FakeApplication = synchronized { privateApp }
+
+  /**
+   * The port used by the <code>TestServer</code>.  By default this will be set to the result return from 
+   * <code>Helpers.testServerPort</code>, user can override this to provide their own port number.
+   */
   val port: Int = Helpers.testServerPort
+
   private var privateWebDriver: WebDriver = _
+
+  /**
+   * Implicit method to get the <code>WebDriver</code> for the current test.
+   */
   implicit def webDriver: WebDriver = synchronized { privateWebDriver }
 
+  /**
+   * Override <code>withFixture</code> to create new instance of <code>WebDriver</code> before 
+   * running each test.  If there is error when creating <code>WebDriver</code>, <code>NoDriver</code> 
+   * will be used and all tests will be canceled automatically.  If <code>WebDirver</code> creation 
+   * is successful, a new instance of <code>TestServer</code> will be started for each test before they 
+   * are executed.
+   *
+   * @param test the no-arg test function to run with a fixture
+   * @return the <code>Outcome</code> of the test execution
+   */
   abstract override def withFixture(test: NoArgTest) = {
     synchronized {
       privateApp = new FakeApplication()
-      privateWebDriver = createNewDriver
+      privateWebDriver = 
+        try {
+          createNewDriver
+        }
+        catch {
+          case _: Throwable => NoDriver
+        }
     }
     try {
-      Helpers.running(TestServer(port, app)) {
-        super.withFixture(test)
+      privateWebDriver match {
+        case NoDriver => cancel
+        case _ =>
+          Helpers.running(TestServer(port, app)) {
+            super.withFixture(test)
+          }
       }
     }
     finally {
-      privateWebDriver.close()
+      privateWebDriver match {
+        case NoDriver => // do nothing
+        case _ => privateWebDriver.close()
+      }
     }
   }
 }
