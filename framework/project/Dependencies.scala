@@ -2,12 +2,11 @@
  * Copyright (C) 2009-2013 Typesafe Inc. <http://www.typesafe.com>
  */
 import sbt._
-import sbt.Keys._
 
 object Dependencies {
 
   // Some common dependencies here so they don't need to be declared over and over
-  val specsVersion = "2.3.4"
+  val specsVersion = "2.3.7"
   val scalaTestVersion = "2.0"
   val specsBuild = Seq(
     "org.scalatest" %% "scalatest" % scalaTestVersion,
@@ -19,7 +18,7 @@ object Dependencies {
   val specsSbt = specsBuild
   val scalaIoFile = "com.github.scala-incubator.io" %% "scala-io-file" % "0.4.2"
 
-  val guava = "com.google.guava" % "guava" % "15.0"
+  val guava = "com.google.guava" % "guava" % "16.0.1"
   val findBugs = "com.google.code.findbugs" % "jsr305" % "2.0.2" // Needed by guava
   val mockitoAll = "org.mockito" % "mockito-all" % "1.9.5"
 
@@ -85,20 +84,20 @@ object Dependencies {
 
     scalaIoFile,
 
-    "com.typesafe.akka" %% "akka-actor" % "2.2.0",
-    "com.typesafe.akka" %% "akka-slf4j" % "2.2.0",
+    "com.typesafe.akka" %% "akka-actor" % "2.3.0-RC1",
+    "com.typesafe.akka" %% "akka-slf4j" % "2.3.0-RC1",
 
     "org.scala-stm" %% "scala-stm" % "0.7",
-    "commons-codec" % "commons-codec" % "1.7",
+    "commons-codec" % "commons-codec" % "1.9",
 
-    "joda-time" % "joda-time" % "2.2",
-    "org.joda" % "joda-convert" % "1.3.1",
+    "joda-time" % "joda-time" % "2.3",
+    "org.joda" % "joda-convert" % "1.5",
 
     "org.apache.commons" % "commons-lang3" % "3.1",
 
-    "com.fasterxml.jackson.core" % "jackson-core" % "2.2.2",
-    "com.fasterxml.jackson.core" % "jackson-annotations" % "2.2.2",
-    "com.fasterxml.jackson.core" % "jackson-databind" % "2.2.2",
+    "com.fasterxml.jackson.core" % "jackson-core" % "2.3.1",
+    "com.fasterxml.jackson.core" % "jackson-annotations" % "2.3.0",
+    "com.fasterxml.jackson.core" % "jackson-databind" % "2.3.0",
 
     "xerces" % "xercesImpl" % "2.11.0",
 
@@ -168,9 +167,9 @@ object Dependencies {
   val jsonDependencies = Seq(
     "joda-time" % "joda-time" % "2.2",
     "org.joda" % "joda-convert" % "1.3.1",
-    "com.fasterxml.jackson.core" % "jackson-annotations" % "2.2.2",
-    "com.fasterxml.jackson.core" % "jackson-core" % "2.2.2",
-    "com.fasterxml.jackson.core" % "jackson-databind" % "2.2.2",
+    "com.fasterxml.jackson.core" % "jackson-annotations" % "2.3.0",
+    "com.fasterxml.jackson.core" % "jackson-core" % "2.3.1",
+    "com.fasterxml.jackson.core" % "jackson-databind" % "2.3.0",
     "org.scala-lang" % "scala-reflect" % BuildSettings.buildScalaVersion) ++
     specsBuild.map(_ % "test")
 
@@ -179,12 +178,14 @@ object Dependencies {
     "org.seleniumhq.selenium" % "selenium-java" % "2.38.0" % "test", 
     guava,
     findBugs,
-    ("org.fluentlenium" % "fluentlenium-festassert" % "0.9.0")
+    ("org.fluentlenium" % "fluentlenium-festassert" % "0.9.2")
       .exclude("org.jboss.netty", "netty")
   )
 
   val integrationTestDependencies = Seq(
-    "org.databene" % "contiperf" % "2.2.0" % "test"
+    "org.databene" % "contiperf" % "2.2.0" % "test",
+    "org.specs2" %% "specs2-scalacheck" % specsVersion % "test",
+    "org.scalacheck" %% "scalacheck" % "1.11.3" % "test"
   )
 
   val playCacheDeps = "net.sf.ehcache" % "ehcache-core" % "2.6.6" +: 
@@ -192,7 +193,7 @@ object Dependencies {
 
   val playWsDeps = Seq(
     guava,
-    ("com.ning" % "async-http-client" % "1.7.21" notTransitive ())
+    ("com.ning" % "async-http-client" % "1.7.23" notTransitive ())
       .exclude("org.jboss.netty", "netty"),
     "oauth.signpost" % "signpost-core" % "1.2.1.2",
     "oauth.signpost" % "signpost-commonshttp4" % "1.2.1.2") ++
@@ -201,7 +202,8 @@ object Dependencies {
 
   val anormDependencies = specsBuild.map(_ % "test") ++ Seq(
     h2database % "test",
-    "acolyte" %% "acolyte-scala" % "1.0.10" % "test"
+    "org.eu.acolyte" %% "acolyte-scala" % "1.0.13" % "test",
+    "com.chuusai" % "shapeless_2.10.2" % "2.0.0-M1" % "test"
   )
 
 }

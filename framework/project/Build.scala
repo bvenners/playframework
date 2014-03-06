@@ -28,11 +28,11 @@ object BuildSettings {
   val buildVersion = propOr("play.version", "2.3-SNAPSHOT")
   val buildWithDoc = boolProp("generate.doc")
   val previousVersion = "2.1.0"
-  val buildScalaVersion = propOr("scala.version", "2.10.3")
+  val buildScalaVersion = propOr("scala.version", "2.10.4-RC2")
   // TODO - Try to compute this from SBT... or not.
-  val buildScalaVersionForSbt = propOr("play.sbt.scala.version", "2.10.3")
+  val buildScalaVersionForSbt = propOr("play.sbt.scala.version", "2.10.4-RC2")
   val buildScalaBinaryVersionForSbt = CrossVersion.binaryScalaVersion(buildScalaVersionForSbt)
-  val buildSbtVersion = propOr("play.sbt.version", "0.13.0")
+  val buildSbtVersion = propOr("play.sbt.version", "0.13.1")
   val buildSbtMajorVersion = "0.13"
   val buildSbtVersionBinaryCompatible = CrossVersion.binarySbtVersion(buildSbtVersion)
   // Used by api docs generation to link back to the correct branch on GitHub, only when version is a SNAPSHOT
@@ -161,7 +161,7 @@ object PlayBuild extends Build {
 
   lazy val AnormProject = PlayRuntimeProject("Anorm", "anorm")
     .settings(libraryDependencies ++= anormDependencies,
-      resolvers += "Applicius Releases Repository" at "https://raw.github.com/applicius/mvn-repo/master/releases/")
+      resolvers += sonatypeSnapshots)
 
   lazy val IterateesProject = PlayRuntimeProject("Play-Iteratees", "iteratees")
     .settings(libraryDependencies := iterateesDependencies)

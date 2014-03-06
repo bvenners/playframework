@@ -71,8 +71,8 @@ private[play] object FPromiseHelper {
     F.Promise.wrap(future)
   }
 
-  def sequence[A](promises: JIterable[F.Promise[_ <: A]], ec: ExecutionContext): F.Promise[JList[A]] = {
-    val futures = JavaConverters.iterableAsScalaIterableConverter(promises).asScala.toBuffer.map((_: F.Promise[_ <: A]).wrapped)
+  def sequence[A](promises: JIterable[F.Promise[A]], ec: ExecutionContext): F.Promise[JList[A]] = {
+    val futures = JavaConverters.iterableAsScalaIterableConverter(promises).asScala.toBuffer.map((_: F.Promise[A]).wrapped)
     implicit val pec = ec.prepare() // Easiest to provide implicitly so don't need to provide other implicit arg to sequence method
     F.Promise.wrap(Future.sequence(futures).map(az => JavaConverters.bufferAsJavaListConverter(az).asJava))
   }
@@ -99,6 +99,9 @@ private[play] object FPromiseHelper {
 
   def flatMap[A, B, T >: A](promise: F.Promise[A], function: F.Function[T, F.Promise[B]], ec: ExecutionContext): F.Promise[B] =
     F.Promise.wrap[B](promise.wrapped().flatMap((a: A) => function.apply(a).wrapped())(ec.prepare()))
+
+  def filter[A, T >: A](promise: F.Promise[A], predicate: F.Predicate[T], ec: ExecutionContext): F.Promise[A] =
+    F.Promise.wrap[A](promise.wrapped().filter(predicate.test)(ec.prepare()))
 
   def recover[A](promise: F.Promise[A], function: F.Function[Throwable, A], ec: ExecutionContext): F.Promise[A] =
     F.Promise.wrap[A](promise.wrapped().recover { case t => function.apply(t) }(ec.prepare()))
