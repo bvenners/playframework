@@ -8,9 +8,13 @@ import play.api.Play
 /**
  * Trait that provides one <code>FakeApplication</code> instance per ScalaTest <code>Suite</code>.
  * 
- * It overrides ScalaTest's <code>Suite.run</code> method to call <code>Play.start()</code> before tests execution, 
- * and call <code>Play.stop()</code> after tests execution completed.  User can access the <code>FakeApplication</code>
- * in <code>args.configMap</code> using "app" key.
+ * <p>
+ * It overrides ScalaTest's <code>Suite.run</code> method to call <code>Play.start()</code> before, 
+ * and <code>Play.stop()</code> after, executing the tests. In the suite that mixes in <code>OneAppPerSuite</code>,
+ * you can access the <code>FakeApplication</code> using the <code>app</code> field. In nested suites,
+ * you can access the <code>FakeApplication</code> from the <code>args.configMap</code>, where it is associated
+ * with key <code>"app"</code>.
+ * </p>
  */
 trait OneAppPerSuite extends SuiteMixin { this: Suite => 
 

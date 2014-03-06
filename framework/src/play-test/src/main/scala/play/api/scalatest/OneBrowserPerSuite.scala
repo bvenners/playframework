@@ -11,10 +11,10 @@ import org.openqa.selenium.WebDriver
 /**
  * Trait that provides one <code>WebBrowser</code> instance per ScalaTest <code>Suite</code>.
  * 
- * It overrides ScalaTest's <code>Suite.run</code> method to start <code>TestServer</code> before tests execution, 
- * and stop <code>TestServer</code> after tests execution completed.  User can access the <code>FakeApplication</code>
- * in <code>args.configMap</code> using "app" key, the port number of the <code>TestServer</code> using "port" key and 
- * the <code>WebDriver</code> instance using "webDriver" key.  This traits also overrides <code>Suite.withFixture</code> 
+ * It overrides ScalaTest's <code>Suite.run</code> method to start a <code>TestServer</code> before test execution, 
+ * and stop the <code>TestServer</code> after test execution has completed.  You can access the <code>FakeApplication</code>
+ * in <code>args.configMap</code> using the <code>"app"</code> key, the port number of the <code>TestServer</code> using the <code>"port"</code> key and 
+ * the <code>WebDriver</code> instance using <code>"webDriver"</code> key.  This traits also overrides <code>Suite.withFixture</code> 
  * to cancel all the tests automatically if the related <code>WebDriver</code> is not available in the running system.
  */
 trait OneBrowserPerSuite extends SuiteMixin with WebBrowser with Eventually with IntegrationPatience with BrowserDriver { this: Suite =>

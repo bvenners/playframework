@@ -4,9 +4,10 @@ import play.api.test._
 import org.openqa.selenium._
 
 /**
- * Implementation of <code>BrowserDriver</code> that represents a particular <code>WebDriver</code> is not available on the 
- * running system.  This is used by OneBrowserPerSuite, OneBrowserPerTest and MixedFixtures to check if a particular <code>WebDriver</code> 
- * is available and cancel the tests when it is not supported.
+ * An implementation of <code>BrowserDriver</code> that does nothing, used when a requested Selenium <code>WebDriver</code> is unavailable.
+ * Traits <code>OneBrowserPerSuite</code>, <code>OneBrowserPerTest</code>, and <code>MixedFixtures</code> check
+ * if the requested <code>WebDriver</code> is available, and if not installs this driver (to avoid initializing with <code>null</code>),
+ * and cancels the tests.
  */
 object NoDriver extends WebDriver {
 
@@ -90,5 +91,4 @@ object NoDriver extends WebDriver {
    */
   def switchTo(): WebDriver.TargetLocator = 
     throw new UnsupportedOperationException("switchTo not supported")
-
 }

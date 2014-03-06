@@ -10,12 +10,12 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.safari.SafariDriver
 
 /**
- * Implementation of <code>BrowserDriver</code> that provides <code>SafariDriver</code>.
+ * Trait providing a <code>createNewDriver</code> method that creates a new Selenium <code>SafariDriver</code>.
  */
 trait SafariBrowser extends BrowserDriver {
 
   /**
-   * Create an new instance of <code>SafariDriver</code>.
+   * Creates a new instance of <code>SafariDriver</code>.
    */
   def createNewDriver: WebDriver = new SafariDriver()
 }

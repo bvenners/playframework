@@ -14,8 +14,8 @@ import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.ie.InternetExplorerDriver
 
 /**
- * Trait that provides the fixture for <code>TestServer</code>, <code>FakeApplication</code> and different kinds 
- * of <code>WebBrowser</code> implementations.
+ * Trait that helps you provide different fixtures to each test: a <code>FakeApplication</code>, a <code>TestServer</code>, or one
+ * of the Selenium <code>WebBrowser</code>s.
  */
 trait MixedFixtures extends SuiteMixin with UnitFixture { this: fixture.Suite =>
 

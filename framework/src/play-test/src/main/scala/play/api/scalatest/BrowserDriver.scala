@@ -5,7 +5,7 @@ import play.api.test._
 import org.openqa.selenium.WebDriver
 
 /**
- * A trait that defines a function to create new Selenium <code>WebDriver</code>.
+ * Trait that defines an abstract <code>createNewDriver</code>  method for creating a new Selenium <code>WebDriver</code>.
  */
 trait BrowserDriver {
 

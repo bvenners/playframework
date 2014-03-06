@@ -10,12 +10,12 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
 
 /**
- * Implementation of <code>BrowserDriver</code> that provides <code>HtmlUnitDriver</code>.
+ * Trait providing a <code>createNewDriver</code> method that creates a new Selenium <code>HtmlUnitDriver</code>.
  */
 trait HtmlUnitBrowser extends BrowserDriver {
 
   /**
-   * Create an new instance of <code>HtmlUnitDriver</code>.
+   * Creates a new instance of <code>HtmlUnitDriver</code>.
    */
   def createNewDriver: WebDriver = {
     val htmlUnitDriver = new HtmlUnitDriver()

@@ -7,9 +7,13 @@ import org.scalatest._
 /**
  * Trait that provides one <code>TestServer</code> and <code>FakeApplication</code> instance per ScalaTest <code>Suite</code>.
  * 
- * It overrides ScalaTest's <code>Suite.run</code> method to start <code>TestServer</code> before tests execution, 
- * and stop <code>TestServer</code> automatically after tests execution completed.  User can access the <code>FakeApplication</code>
- * in <code>args.configMap</code> using "app" key, and port used by <code>TestServer</code> using "port" key.
+ * It overrides ScalaTest's <code>Suite.run</code> method to start a <code>TestServer</code> before test execution, 
+ * and stop the <code>TestServer</code> automatically after test execution has completed. 
+ * In the suite that mixes in <code>OneServerPerSuite</code>,
+ * you can access the <code>FakeApplication</code> via the <code>app</code> field and the port used by the <code>TestServer</code>
+ * via the <code>port</code>field. In nested suites,
+ * you can access the <code>FakeApplication</code> and port number from the <code>args.configMap</code>, where they are associated
+ * with keys <code>"app"</code> and <code>"port"</code>, respectively.
  */
 trait OneServerPerSuite extends SuiteMixin { this: Suite =>
 

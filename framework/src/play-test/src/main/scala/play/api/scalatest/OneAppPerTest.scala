@@ -5,10 +5,11 @@ import play.api.test._
 import org.scalatest._
 
 /**
- * Trait that provides new running <code>FakeApplication</code> instance for each test executed in a ScalaTest <code>Suite</code>.
+ * Trait that provides new <code>FakeApplication</code> instance for each test.
  * 
- * It overrides ScalaTest's <code>withFixture</code> method to create new <code>FakeApplication</code> instance and  
- * run it before executing the test.
+ * It overrides ScalaTest's <code>withFixture</code> method to create new <code>FakeApplication</code> instance,
+ * make it available from method <code>app</code>, and execute the test surrounded by a call to <code>Helpers.running(app)</code>.
+ * In the tests you can access the <code>FakeApplication</code> using the <code>app</code> parameterless method.
  */
 trait OneAppPerTest extends SuiteMixin { this: Suite => 
 

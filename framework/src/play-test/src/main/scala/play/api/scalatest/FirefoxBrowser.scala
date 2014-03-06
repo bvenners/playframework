@@ -11,7 +11,7 @@ import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxProfile
 
 /**
- * Implementation of <code>BrowserDriver</code> that provides <code>FirefoxDriver</code>.
+ * Trait providing a <code>createNewDriver</code> method that creates a new Selenium <code>FirefoxDriver</code>.
  */
 trait FirefoxBrowser extends BrowserDriver {
   /**
@@ -20,7 +20,7 @@ trait FirefoxBrowser extends BrowserDriver {
   val firefoxProfile = new FirefoxProfile()
 
   /**
-   * Create an new instance of <code>FirefoxDriver</code>.
+   * Creates a new instance of <code>FirefoxDriver</code>.
    */
   def createNewDriver: WebDriver = new FirefoxDriver(firefoxProfile)
 }
