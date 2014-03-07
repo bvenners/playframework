@@ -18,19 +18,19 @@ class OneAppPerSuiteSpec extends UnitSpec with OneAppPerSuite {
     super.withFixture(test)
   }
 
-  "The OneAppPerSuite trait" should {
+  "The OneAppPerSuite trait" must {
     "provide a FakeApplication" in {
-      app.configuration.getString("foo") shouldBe Some("bar")
+      app.configuration.getString("foo") mustBe Some("bar")
     }
     "make the FakeApplication available implicitly" in {
-      getConfig("foo") shouldBe Some("bar")
+      getConfig("foo") mustBe Some("bar")
     }
     "start the FakeApplication" in {
-      Play.maybeApplication shouldBe Some(app)
+      Play.maybeApplication mustBe Some(app)
     }
     "put the app in the configMap" in {
       val configuredApp = configMap.getOptional[FakeApplication]("app")
-      configuredApp.value should be theSameInstanceAs app
+      configuredApp.value must be theSameInstanceAs app
     }
   }
 }

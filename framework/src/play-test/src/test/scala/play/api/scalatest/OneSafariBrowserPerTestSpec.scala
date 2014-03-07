@@ -14,32 +14,32 @@ class OneSafariBrowserPerTestSpec extends UnitSpec with OneBrowserPerTest with S
 
   def getConfig(key: String)(implicit app: Application) = app.configuration.getString(key)
 
-  "The OneBrowserPerTest trait" should {
+  "The OneBrowserPerTest trait" must {
     "provide a FakeApplication" in {
-      app.configuration.getString("foo") shouldBe Some("bar")
+      app.configuration.getString("foo") mustBe Some("bar")
     }
     "make the FakeApplication available implicitly" in {
-      getConfig("foo") shouldBe Some("bar")
+      getConfig("foo") mustBe Some("bar")
     }
     "start the FakeApplication" in {
-      Play.maybeApplication shouldBe Some(app)
+      Play.maybeApplication mustBe Some(app)
     }
     "provide the port" in {
-      port shouldBe Helpers.testServerPort
+      port mustBe Helpers.testServerPort
     }
     import Helpers._
     "send 404 on a bad request" in {
       import java.net._
       val url = new URL("http://localhost:" + port + "/boum")
       val con = url.openConnection().asInstanceOf[HttpURLConnection]
-      try con.getResponseCode shouldBe 404
+      try con.getResponseCode mustBe 404
       finally con.disconnect()
     }
     "provide a web driver" in {
       go to ("http://localhost:" + port + "/testing")
-      pageTitle shouldBe "Test Page"
+      pageTitle mustBe "Test Page"
       click on find(name("b")).value
-      eventually { pageTitle shouldBe "scalatest" }
+      eventually { pageTitle mustBe "scalatest" }
     }
   }
 }

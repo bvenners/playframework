@@ -18,34 +18,34 @@ class OneServerPerSuiteSpec extends UnitSpec with OneServerPerSuite {
     super.withFixture(test)
   }
 
-  "The OneServerPerSuite trait" should {
+  "The OneServerPerSuite trait" must {
     "provide a FakeApplication" in {
-      app.configuration.getString("foo") shouldBe Some("bar")
+      app.configuration.getString("foo") mustBe Some("bar")
     }
     "make the FakeApplication available implicitly" in {
-      getConfig("foo") shouldBe Some("bar")
+      getConfig("foo") mustBe Some("bar")
     }
     "start the FakeApplication" in {
-      Play.maybeApplication shouldBe Some(app)
+      Play.maybeApplication mustBe Some(app)
     }
     "provide the port" in {
-      port shouldBe Helpers.testServerPort
+      port mustBe Helpers.testServerPort
     }
     import Helpers._
     "send 404 on a bad request" in {
       import java.net._
       val url = new URL("http://localhost:" + port + "/boum")
       val con = url.openConnection().asInstanceOf[HttpURLConnection]
-      try con.getResponseCode shouldBe 404
+      try con.getResponseCode mustBe 404
       finally con.disconnect()
     }
     "put the app in the configMap" in {
       val configuredApp = configMap.getOptional[FakeApplication]("app")
-      configuredApp.value should be theSameInstanceAs app
+      configuredApp.value must be theSameInstanceAs app
     }
     "put the port in the configMap" in {
       val configuredPort = configMap.getOptional[Int]("port")
-      configuredPort.value shouldEqual port
+      configuredPort.value mustEqual port
     }
   }
 }
